@@ -1,7 +1,7 @@
 let canvas = document.getElementById("gameCanvas");
 let context = canvas.getContext("2d");
-let nx = 4;
-let ny = 3;
+let nx = 10;
+let ny = 10;
 let sqside = 70;
 let herox = 2;
 let heroy = 1;
@@ -23,41 +23,46 @@ function drawMap() {
 drawMap();
 
 canvas.onclick = function(e) {
-	let x = e.x - canvas.offsetLeft;
-	let y = e.y - canvas.offsetTop;
-	herox = Math.floor(x / sqside);
-	heroy = Math.floor(y / sqside);
-	drawMap();
+	//let x = e.x - canvas.offsetLeft;
+	//let y = e.y - canvas.offsetTop;
+	//herox = Math.floor(x / sqside);
+	//heroy = Math.floor(y / sqside);
+	//drawMap();
 }
 function moveLeft() {
- herox --;
- drawMap();
+	if(herox > 0){
+		herox --;
+	}
+	drawMap();
  
  }
  function moveDown() {
-  heroy ++;
- drawMap();
+	 if(heroy < ny - 1) {
+		heroy ++;
+	 }
+	drawMap();
  
  }
  function moveRight() {
-  herox ++;
- drawMap();
+	 if(herox < nx - 1) {
+		herox ++;
+	 }
+	drawMap();
  
  }
  function moveUp() {
-  heroy --;
- drawMap();
+	 if(heroy > 0) {
+		heroy --;
+     }
+	drawMap();
  
  }
  
 document.onkeypress = function(e) {
-let key = e.key;
-switch(key) {
-case "a": moveLeft(); break;
-case "s": moveDown(); break;
-case "d": moveRight(); break;
-case "w": moveUp(); break;
-	}
+	let key = e.key;
+	if(key == "a" || key == "ArrowLeft") {moveLeft();}
+	else if(key == "s" || key == "ArrowDown") {moveDown();}
+	else if(key == "d" || key == "ArrowRight") {moveRight();}
+	else if(key == "w" || key == "ArrowUp") {moveUp();}
 
-console.log(key);
 }
