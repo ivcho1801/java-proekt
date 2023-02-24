@@ -1,10 +1,20 @@
 let canvas = document.getElementById("gameCanvas");
 let context = canvas.getContext("2d");
+let vhod = document.getElementById("vhod").value;
+let words = vhod.split(" ");
+console.log(words);
+let p= document.getElementById("tutorial");
+let obekt = {
+ime: "Минчо",
+familiq: "Лентата",
+vazrast: 19
+}
+console.log(obekt.familiq);
 let nx = 10;
-let ny = 10;
+let ny = 7;
 let sqside = 70;
-let herox = 2;
-let heroy = 1;
+let herox = 0;
+let heroy = 0;
 let heroimg = new Image();
 canvas.width = nx * sqside;
 canvas.height = ny * sqside;
@@ -16,7 +26,12 @@ function drawMap() {
 	for (let i = 0; i < nx; i++) {
 		for (let j = 0; j < ny; j++) {
 			context.strokeRect(i * sqside, j * sqside, sqside, sqside);
-		}	
+			let isFill = false;
+			if(Math.random() * 100 <= 3) {
+			isFill = true;
+			}
+		}
+	
 	}
 }
 
@@ -47,6 +62,7 @@ function moveLeft() {
 	 if(herox < nx - 1) {
 		herox ++;
 	 }
+	 p .innerText = "Минчо който не се казва Минчо се засилва по перона и се провиква: Ела тука да ти осветя лентата бее!!!";
 	drawMap();
  
  }
