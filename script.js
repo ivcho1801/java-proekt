@@ -1,9 +1,8 @@
 let canvas = document.getElementById("gameCanvas");
 let context = canvas.getContext("2d");
-let vhod = document.getElementById("vhod").value;
-let words = vhod.split(" ");
-console.log(words);
+let vhod = document.getElementById("vhod");
 let p= document.getElementById("tutorial");
+let broqch= document.getElementById("broqch");
 let obekt = {
 ime: "Минчо",
 familiq: "Лентата",
@@ -18,21 +17,30 @@ let heroy = 0;
 let heroimg = new Image();
 canvas.width = nx * sqside;
 canvas.height = ny * sqside;
+heroimg.src = "mincho.png";
 
+let camera =  {
+	x: 8,
+	y: 5
+}
+let cameraimage = new Image();
+cameraimage.src="camera.jpg";
+let cameracount = 0;		
+drawMap();
 function drawMap() {
-	heroimg.src = "mincho.png";
+	
 	context.clearRect(0, 0, canvas.width, canvas.height);
-	context.drawImage(heroimg, herox * sqside, heroy * sqside, sqside, sqside);
+	
 	for (let i = 0; i < nx; i++) {
 		for (let j = 0; j < ny; j++) {
 			context.strokeRect(i * sqside, j * sqside, sqside, sqside);
-			let isFill = false;
-			if(Math.random() * 100 <= 3) {
-			isFill = true;
-			}
+			
 		}
 	
 	}
+
+	context.drawImage(cameraimage, camera.x * sqside, camera.y * sqside, sqside, sqside);
+	context.drawImage(heroimg, herox * sqside, heroy * sqside, sqside, sqside);
 }
 
 drawMap();
@@ -62,7 +70,7 @@ function moveLeft() {
 	 if(herox < nx - 1) {
 		herox ++;
 	 }
-	 p .innerText = "Минчо който не се казва Минчо се засилва по перона и се провиква: Ела тука да ти осветя лентата бее!!!";
+	 
 	drawMap();
  
  }
@@ -80,5 +88,36 @@ document.onkeypress = function(e) {
 	else if(key == "s" || key == "ArrowDown") {moveDown();}
 	else if(key == "d" || key == "ArrowRight") {moveRight();}
 	else if(key == "w" || key == "ArrowUp") {moveUp();}
-
+	if(herox == camera.x && heroy == camera.y){
+		novacamera();
+	}
+}
+function novacamera() {
+	let m = [Math.floor(Math.random() * nx), Math.floor(Math.random() * ny)];
+	
+	camera = {x:m[0], y:m[1]};
+	cameracount++;
+	broqch.textContent = cameracount + "";
+	if(cameracount ==10){
+		p.textContent = "БРАВО! ТИ СПЕЧЕЛИ!";
+		p.fontSize = "50";
+		camera = 0;
+		
+	}
+	else if (cameracount == 1) {
+		p.textContent = "Минчо който не се казва Минчо се засилва по перона и се провиква: Ела тука да ти осветя лентата бее!!!";
+	}
+}
+vhod.onkeydown = function(e) {
+	if(e.key == "r") {
+		herox = heroy = 0;
+		cameracount = 0;
+		camera =  {
+			x: 8,
+			y: 5
+		}
+		vhod.textContent = "" ;
+		drawMap();
+		broqch.textContent = "" ;
+	}
 }
